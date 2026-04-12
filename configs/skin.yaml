@@ -16,7 +16,7 @@ model:
   l2_weight: 5.0e-6
 # data configs
 data:
-  data_dir: /workspace/Datasets/fitzpatrick17k
+  data_dir: workspace/Datasets/fitzpatrick17k
   dataset: skincon
   batch_size: 64
   img_size: 224
