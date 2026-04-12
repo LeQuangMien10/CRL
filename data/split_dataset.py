@@ -3,7 +3,7 @@ import json
 import pandas as pd
 from pathlib import Path
 
-data_dir = Path("/workspace/Datasets/fitzpatrick17k")
+data_dir = Path("workspace/Datasets/fitzpatrick17k")
 data_df = pd.read_csv(data_dir / "meta_data/fitzpatrick17k.csv")
 concept_df = pd.read_csv(data_dir / "meta_data/skincon.csv", index_col=0)
 
