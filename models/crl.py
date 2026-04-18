@@ -17,6 +17,7 @@ class CRL(pl.LightningModule):
         self.dim_list = [
             cfgs.data.n_concepts,
             cfgs.model.l1,
+            cfgs.data.n_classes,
             cfgs.model.l2,
             cfgs.data.n_classes,
         ]
@@ -39,7 +40,7 @@ class CRL(pl.LightningModule):
             if idx == 0:
                 layer = BinarizeLayer(dim, self.use_not)
                 layer_name = f"binary{idx}"
-            elif idx == len(self.dim_list) - 1:
+            elif idx % 2 == 0:
                 layer = LRLayer(prev_layer_dim, dim)
                 layer_name = f"lr{idx}"
             else:
