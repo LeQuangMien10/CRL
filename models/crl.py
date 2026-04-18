@@ -69,7 +69,7 @@ class CRL(pl.LightningModule):
         concepts = self.concept_predictor(features)
         x = concepts
 
-        for layer in self.layer_list:
+        for i, layer in enumerate(self.layer_list):
             if layer.conn.skip_from_layer is not None:
                 x = torch.cat((x, layer.conn.skip_from_layer.x_res), dim=1)
                 del layer.conn.skip_from_layer.x_res
@@ -77,7 +77,8 @@ class CRL(pl.LightningModule):
 
             if isinstance(layer, LRLayer):
                 x = torch.sigmoid(x)
-                x = (x > 0.5).float()
+                if i != len(self.layer_list) - 1:
+                    x = (x > 0.5).float()
             
             if layer.conn.is_skip_to_layer:
                 layer.x_res = x
@@ -89,14 +90,15 @@ class CRL(pl.LightningModule):
         concepts = self.concept_predictor(features)
         x = concepts
 
-        for layer in self.layer_list:
+        for i, layer in enumerate(self.layer_list):
             if layer.conn.skip_from_layer is not None:
                 x = torch.cat((x, layer.conn.skip_from_layer.x_res), dim=1)
                 del layer.conn.skip_from_layer.x_res
             x = layer.binarized_forward(x)
             if isinstance(layer, LRLayer):
                 x = torch.sigmoid(x)
-                x = (x > 0.5).float()
+                if i != len(self.layer_list) - 1:
+                    x = (x > 0.5).float()
             if layer.conn.is_skip_to_layer:
                 layer.x_res = x
             if count and layer.layer_type != "linear":
