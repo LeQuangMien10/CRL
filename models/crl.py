@@ -77,6 +77,7 @@ class CRL(pl.LightningModule):
 
             if isinstance(layer, LRLayer):
                 x = torch.sigmoid(x)
+                x = (x > 0.5).float()
             
             if layer.conn.is_skip_to_layer:
                 layer.x_res = x
@@ -95,6 +96,7 @@ class CRL(pl.LightningModule):
             x = layer.binarized_forward(x)
             if isinstance(layer, LRLayer):
                 x = torch.sigmoid(x)
+                x = (x > 0.5).float()
             if layer.conn.is_skip_to_layer:
                 layer.x_res = x
             if count and layer.layer_type != "linear":
